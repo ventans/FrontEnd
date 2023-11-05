@@ -10,8 +10,26 @@ public class ControlDropdownWindows : MonoBehaviour
 
     private GameObject ventanaActual; // Almacena la ventana actual.
 
+
+    public GameObject Muro; // Almacena el Muro actual.
+   
+    [SerializeField] private Slider Alto;
+    [SerializeField] private Slider Profundo;
+    [SerializeField] private Slider Ancho;
+
+
+
     private void Start()
     {
+
+        Profundo.value = Muro.transform.localScale.x;
+        Ancho.value = Muro.transform.localScale.y;
+        Alto.value = Muro.transform.localScale.z;
+
+
+
+
+
         // Limpia las opciones del Dropdown, para que la ventana no se sobreponga.
         dropdown.ClearOptions();
 
@@ -27,7 +45,16 @@ public class ControlDropdownWindows : MonoBehaviour
         dropdown.onValueChanged.AddListener(OnDropdownValueChanged);
     }
 
-    private void OnDropdownValueChanged(int value)
+
+    void Update()
+    {
+        // Actualiza la posición, rotación y escala del objeto según los valores de los sliders
+        Muro.transform.localScale = new Vector3(Ancho.value, Alto.value, Profundo.value);
+    }
+
+ 
+
+private void OnDropdownValueChanged(int value)
     {
         // Asegúrate de que haya ventanas para instanciar y el valor sea válido.
         if (ventanaPrefabs.Count == 0 || value < 0 || value >= ventanaPrefabs.Count)
